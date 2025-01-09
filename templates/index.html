@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Utama - Aplikasi Ujian</title>
+    
+    <!-- Menggunakan link CDN untuk Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Menambahkan CSS custom -->
+    <style>
+        body {
+            background-color: #f4f7fc;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .description {
+            font-size: 18px;
+            color: #34495e;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            border-color: #2980b9;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #3498db;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-center a {
+            text-decoration: none;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: #7f8c8d;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #3498db;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <h2 class="title">Selamat Datang di Aplikasi Ujian</h2>
+        <p class="description">Silakan klik tombol di bawah untuk masuk ke halaman login dan mulai ujian.</p>
+        
+        <!-- Tombol untuk menuju halaman login -->
+        <a href="{{ url_for('login') }}" class="btn btn-primary">Masuk ke Login</a>
+    </div>
+
+    <div class="footer">
+        <p>© 2025 Aplikasi Ujian. Semua hak cipta dilindungi. <a href="#">Kebijakan Privasi</a> | <a href="#">Ketentuan Layanan</a></p>
+    </div>
+
+    <!-- Menggunakan JS CDN untuk Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

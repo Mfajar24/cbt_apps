@@ -315,6 +315,11 @@ def register():
 
     return render_template('register.html')
 
+#rute index 
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
+
 #rute login 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
