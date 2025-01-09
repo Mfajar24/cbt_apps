@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Ujian</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* CSS untuk halaman result */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 36px;
+            color: #4CAF50;
+        }
+
+        .result {
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .result h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .result p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .result .correct {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .result .incorrect {
+            color: #FF6347;
+            font-weight: bold;
+        }
+
+        .result a {
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .result a:hover {
+            background-color: #45a049;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            .result h2 {
+                font-size: 24px;
+            }
+
+            .result p {
+                font-size: 16px;
+            }
+
+            .result a {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Hasil Ujian</h1>
+        </header>
+
+        <div class="result">
+            <h2>Ujian Selesai!</h2>
+            <p class="correct">Jawaban Benar: {{ correct_answers }} dari {{ total_questions }}</p>
+            <p class="incorrect">Jawaban Salah: {{ incorrect_answers }} dari {{ total_questions }}</p>
+            
+            <a href="{{ url_for('home') }}">Kembali ke Beranda</a>
+        </div>
+    </div>
+
+</body>
+</html>

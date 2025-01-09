@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Soal</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        /* Header style */
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Main content container */
+        .content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Section heading */
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Link styles */
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Button styles */
+        button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #c82333;
+        }
+
+        /* Upload Link Button */
+        .upload-link a {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .upload-link a:hover {
+            background-color: #218838;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                padding: 15px;
+            }
+
+            table {
+                font-size: 12px;
+                margin: 10px 0;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .upload-link a {
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+
+            button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        Manajemen Soal
+    </header>
+
+    <div class="content">
+        <h2>Daftar Soal</h2>
+        
+        <!-- Link untuk mengunggah soal Excel -->
+        <div class="upload-link">
+            <a href="{{ url_for('upload_questions') }}">Unggah Soal dari File Excel</a>
+        </div>
+
+        <!-- Tabel Soal -->
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Pertanyaan</th>
+                    <th>Opsi 1</th>
+                    <th>Opsi 2</th>
+                    <th>Opsi 3</th>
+                    <th>Opsi 4</th>
+                    <th>Jawaban</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ question.question }}</td>
+                    <td>{{ question.option1 }}</td>
+                    <td>{{ question.option2 }}</td>
+                    <td>{{ question.option3 }}</td>
+                    <td>{{ question.option4 }}</td>
+                    <td>{{ question.answer }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_question', question_id=question.id) }}">Edit</a> |
+                        <form action="{{ url_for('manage_questions') }}" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="question_id" value="{{ question.id }}">
+                            <button type="submit">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Tombol Kembali ke Beranda -->
+        <div class="text-center mt-4">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">Kembali ke Beranda</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

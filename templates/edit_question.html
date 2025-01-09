@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Soal</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Form container */
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Label and Input fields */
+        label {
+            font-size: 16px;
+            margin: 10px 0 5px;
+            display: inline-block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Edit Soal</h1>
+    </header>
+
+    <div class="form-container">
+        <h2>Edit Pertanyaan</h2>
+        <form method="POST">
+            <label for="question">Pertanyaan:</label>
+            <input type="text" name="question" id="question" value="{{ question.question }}" required><br>
+
+            <label for="option1">Opsi 1:</label>
+            <input type="text" name="option1" id="option1" value="{{ question.option1 }}" required><br>
+
+            <label for="option2">Opsi 2:</label>
+            <input type="text" name="option2" id="option2" value="{{ question.option2 }}" required><br>
+
+            <label for="option3">Opsi 3:</label>
+            <input type="text" name="option3" id="option3" value="{{ question.option3 }}" required><br>
+
+            <label for="option4">Opsi 4:</label>
+            <input type="text" name="option4" id="option4" value="{{ question.option4 }}" required><br>
+
+            <label for="answer">Jawaban:</label>
+            <input type="text" name="answer" id="answer" value="{{ question.answer }}" required><br>
+
+            <button type="submit">Perbarui Soal</button>
+        </form>
+    </div>
+
+</body>
+</html>
