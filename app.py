@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user, logout_user
 from werkzeug.utils import secure_filename
+from flask import send_from_directory
 import os
 
 
@@ -316,9 +317,10 @@ def register():
     return render_template('register.html')
 
 #rute index 
-@app.route('/', methods=['GET'])
+# Mengarahkan ke file index.html yang berada di luar folder templates
+@app.route('/')
 def index():
-    return render_template('index.html')
+    return send_from_directory('.', 'index.html')  # '.' berarti direktori root
 
 #rute login 
 @app.route('/login', methods=['GET', 'POST'])
