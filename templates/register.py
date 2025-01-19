@@ -8,6 +8,7 @@ def register():
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
     confirm_password = st.text_input("Konfirmasi Password", type="password")
+    role = st.selectbox("Pilih Role", ["user", "admin"])  # Menambahkan pemilihan role
 
     if st.button("Daftar"):
         if username and password and confirm_password:
@@ -21,9 +22,10 @@ def register():
                 if existing_user:
                     st.error("Username sudah terdaftar!")
                 else:
-                    cursor.execute("INSERT INTO user (username, password) VALUES (?, ?)", (username, password))
+                    cursor.execute("INSERT INTO user (username, password, role) VALUES (?, ?, ?)", (username, password, role))
                     conn.commit()
                     st.success("Akun berhasil dibuat! Silakan login.")
+                    st.session_state.page = "login"  # Arahkan ke halaman login
                 conn.close()
             else:
                 st.error("Password dan konfirmasi password tidak cocok!")

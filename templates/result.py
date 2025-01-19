@@ -68,7 +68,7 @@ def calculate_and_display_results():
 
     # Simpan hasil ke tabel exam
     date_taken = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    cursor.execute('''
+    cursor.execute(''' 
         INSERT INTO exam (user_id, score, date_taken)
         VALUES (?, ?, ?)
     ''', (user_id, score, date_taken))
@@ -87,6 +87,10 @@ def calculate_and_display_results():
             file_name=pdf_file.split("/")[-1],
             mime="application/pdf",
         )
+
+    # Tombol Kembali
+    if st.button("Kembali ke Menu Utama"):
+        st.session_state.page = "home"  # Mengarahkan kembali ke halaman utama
 
     # Tutup koneksi
     conn.close()

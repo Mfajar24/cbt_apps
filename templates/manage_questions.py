@@ -1,16 +1,25 @@
 import streamlit as st
 import sqlite3
 
-def get_questions():
-    conn = sqlite3.connect('database.db')
+# Fungsi untuk menghubungkan ke database
+def get_db_connection():
+    return sqlite3.connect('database.db')
+
+# Fungsi untuk mendapatkan soal dari database
+def get_questions(search_text="", sort_by="question_id"):
+    conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM questions ORDER BY question_id ASC')  # Urutkan berdasarkan ID
+    
+    # Menambahkan query pencarian
+    query = f"SELECT * FROM questions WHERE question_text LIKE ? ORDER BY {sort_by} ASC"
+    cursor.execute(query, ('%' + search_text + '%',))
     questions = cursor.fetchall()
     conn.close()
     return questions
 
+# Fungsi untuk menghapus soal
 def delete_question(question_id):
-    conn = sqlite3.connect('database.db')
+    conn = get_db_connection()
     cursor = conn.cursor()
     
     # Hapus soal berdasarkan ID
@@ -31,15 +40,21 @@ def delete_question(question_id):
     st.success(f"Soal dengan ID {question_id} berhasil dihapus!")
 
 def manage_questions():
-    st.title("Pengelolaan Soal")
+    st.title("📋 Pengelolaan Soal")
 
-    # Memastikan pembaruan hanya terjadi setelah interaksi
-    if "questions_updated" in st.session_state and st.session_state["questions_updated"]:
-        st.session_state["questions_updated"] = False
+    # Fitur pencarian soal
+    search_text = st.text_input("Cari Soal (Ketik teks soal)", "")
 
-    # Mendapatkan daftar soal dari database
-    questions = get_questions()
+    # Fitur sortir soal
+    sort_by = st.selectbox("Urutkan Berdasarkan", ["question_id", "question_text"])
 
+    # Mendapatkan daftar soal dari database dengan filter dan sorting
+    questions = get_questions(search_text, sort_by)
+
+    if not questions:
+        st.warning("Tidak ada soal yang ditemukan berdasarkan pencarian.")
+    
+    # Menampilkan soal dengan tata letak rapi
     for question in questions:
         question_id = question[0]  # ID soal
         question_text = question[1]  # Teks soal
@@ -48,24 +63,39 @@ def manage_questions():
         option_c = question[4]  # Pilihan C
         option_d = question[5]  # Pilihan D
 
-        # Menampilkan soal dan pilihan jawaban
-        st.write(f"Nomor: {question_id} - {question_text}")
-        st.write(f"Pilihan A: {option_a}")
-        st.write(f"Pilihan B: {option_b}")
-        st.write(f"Pilihan C: {option_c}")
-        st.write(f"Pilihan D: {option_d}")
+        st.markdown(f"### Soal Nomor {question_id}")
+        st.markdown(f"**Soal**: {question_text}")
+        st.markdown(f"**Pilihan A**: {option_a}")
+        st.markdown(f"**Pilihan B**: {option_b}")
+        st.markdown(f"**Pilihan C**: {option_c}")
+        st.markdown(f"**Pilihan D**: {option_d}")
         
-        # Tombol hapus soal
-        if st.button(f"Hapus Soal Nomor {question_id}", key=f"delete_{question_id}"):
-            delete_question(question_id)
-            # Pemindahan logika ke state untuk mereset tampilan
-            return
+        col1, col2 = st.columns(2)
+        with col1:
+            # Tombol hapus soal
+            if st.button(f"❌ Hapus Soal Nomor {question_id}", key=f"delete_{question_id}"):
+                delete_question(question_id)
+                st.rerun()  # Memaksa refresh halaman setelah menghapus soal
+
+        with col2:
+            # Tombol edit soal
+            if st.button(f"✏️ Edit Soal Nomor {question_id}", key=f"edit_{question_id}"):
+                # Menyimpan ID soal yang akan diedit di session_state
+                st.session_state["edit_question_id"] = question_id
+                # Pindah ke halaman edit
+                st.session_state.page = "edit_question"
+                st.rerun()  # Memaksa aplikasi untuk berpindah ke halaman edit
 
     # Tombol untuk menavigasi ke halaman tambah soal
-    if st.button("Tambahkan Soal Baru"):
+    if st.button("➕ Tambahkan Soal Baru"):
         st.session_state.page = "upload_questions"  # Set state untuk pindah ke tambah soal
+        st.rerun()  # Memaksa halaman berpindah setelah menekan tombol
 
+    # Tombol untuk kembali ke halaman utama
+    if st.button("🏠 Kembali ke Home"):
+        st.session_state.page = "home"  # Atur halaman menjadi 'home'
+        st.rerun()  # Memaksa halaman berpindah ke halaman utama
+
+# Memastikan halaman ini bisa dipanggil oleh main.py
 if __name__ == "__main__":
-    if "questions_updated" not in st.session_state:
-        st.session_state["questions_updated"] = False  # Inisialisasi state
     manage_questions()

@@ -72,6 +72,30 @@ def update_database():
     ''')
     print("Tabel 'exam_results' berhasil dibuat.")
 
+    # Menghapus tabel 'kisi_kisi' jika ada
+    cursor.execute('DROP TABLE IF EXISTS kisi_kisi')
+    print("Tabel 'kisi_kisi' berhasil dihapus.")
+
+    # Membuat tabel 'kisi_kisi' yang baru
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS kisi_kisi (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            topik TEXT NOT NULL,
+            deskripsi TEXT NOT NULL
+        )
+    ''')
+    print("Tabel 'kisi_kisi' berhasil dibuat.")
+
+# Menambahkan kolom 'role' pada tabel 'users' jika belum ada
+    try:
+        cursor.execute('''
+            ALTER TABLE user ADD COLUMN role TEXT DEFAULT 'user'
+        ''')
+        print("Kolom 'role' berhasil ditambahkan pada tabel 'users'.")
+    except sqlite3.OperationalError:
+        print("Kolom 'role' sudah ada di tabel 'users'.")
+
+
     # Menutup koneksi
     conn.commit()
     conn.close()

@@ -17,13 +17,18 @@ def login():
             user = cursor.fetchone()
 
             if user:
-                # Set session state untuk login berhasil
+                # Simpan informasi login dan role ke session state
                 st.session_state["logged_in"] = True
                 st.session_state["username"] = username
-                st.session_state["page"] = "Home"  # Halaman utama setelah login
+                st.session_state["role"] = user[3]  # Mengambil nilai role dari hasil query (kolom ke-4 misalnya)
+                st.session_state["page"] = "home"  # Halaman utama setelah login
                 st.success(f"Login berhasil! Selamat datang, {username}.")
             else:
                 st.error("Username atau password salah!")
             conn.close()
         else:
             st.error("Harap mengisi semua kolom!")
+
+# Jalankan fungsi login
+if __name__ == "__main__":
+    login()
